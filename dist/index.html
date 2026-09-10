@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kinetic Typography Studio - Universal Korean & Global Motion Lab</title>
+
+  <!-- Premium WebFonts (Korean & Latin) -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Han+Sans&family=Do+Hyeon&family=Gowun+Batang:wght@400;700&family=JetBrains+Mono:wght@400;700;800&family=Montserrat:wght@400;700;900&family=Noto+Serif+KR:wght@600;900&family=Playfair+Display:wght@700;900&family=Space+Grotesk:wght@600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =================================================== */
+    /* 🎨 THEME VARIABLES (Dark Mode & White/Light Mode)  */
+    /* =================================================== */
+    :root {
+      --brand-primary: #0066FF;
+      --brand-accent: #15B2F5;
+      --brand-purple: #7C3AED;
+      --brand-emerald: #10B981;
+      --brand-sunset: #F43F5E;
+
+      /* Dynamic Font Moding Variables */
+      --user-font: 'Pretendard Variable', sans-serif;
+      --user-weight: 900;
+      --user-tracking: -0.02em;
+      --user-leading: 1.15;
+      --user-transform: none;
+      --user-font-size: 44px;
+      --user-color: #F9FAFB;
+      --user-style: normal;
+    }
+
+    /* Dark Mode Defaults */
+    html[data-theme="dark"] {
+      --bg-base: #090D16;
+      --bg-surface: #111827;
+      --bg-card: rgba(17, 24, 39, 0.88);
+      --bg-stage: radial-gradient(circle at 50% 50%, #151D2E 0%, #0D121F 100%);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(0, 102, 255, 0.5);
+      --text-main: #F9FAFB;
+      --text-muted: #9CA3AF;
+      --text-dim: #6B7280;
+      --shadow-card: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+      --input-bg: rgba(3, 7, 18, 0.8);
+      --panel-bg: rgba(17, 24, 39, 0.94);
+      --grain-opacity: 0.22;
+      --grain-mix: overlay;
+      --code-bg: #030712;
+      --header-grad: linear-gradient(135deg, #FFFFFF 20%, #93C5FD 70%, #60A5FA 100%);
+    }
+
+    /* ☀️ White Mode (Light Mode) */
+    html[data-theme="light"] {
+      --bg-base: #F4F7FB;
+      --bg-surface: #FFFFFF;
+      --bg-card: rgba(255, 255, 255, 0.94);
+      --bg-stage: radial-gradient(circle at 50% 50%, #FFFFFF 0%, #F0F4F8 70%, #E6EDF5 100%);
+      --border-subtle: rgba(0, 27, 68, 0.08);
+      --border-focus: rgba(0, 102, 255, 0.4);
+      --text-main: #0F172A;
+      --text-muted: #475569;
+      --text-dim: #94A3B8;
+      --shadow-card: 0 10px 25px -5px rgba(0, 27, 68, 0.07), 0 4px 10px rgba(0, 0, 0, 0.03);
+      --input-bg: #FFFFFF;
+      --panel-bg: rgba(255, 255, 255, 0.95);
+      --grain-opacity: 0.12;
+      --grain-mix: multiply;
+      --code-bg: #0B132B;
+      --header-grad: linear-gradient(135deg, #001B44 20%, #0066FF 70%, #15B2F5 100%);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Ambient Background Mesh */
+    .ambient-mesh {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+      opacity: 0.65;
+    }
+    .ambient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(130px);
+      animation: orbFloat 22s infinite alternate ease-in-out;
+    }
+    .orb-1 { top: -15%; left: 8%; width: 650px; height: 650px; background: rgba(0, 102, 255, 0.16); }
+    .orb-2 { bottom: 10%; right: -5%; width: 750px; height: 750px; background: rgba(124, 58, 237, 0.14); animation-duration: 26s; }
+    .orb-3 { top: 40%; left: 45%; width: 550px; height: 550px; background: rgba(16, 185, 129, 0.09); animation-duration: 19s; }
+
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.1); }
+      100% { transform: translate(-40px, 60px) scale(0.95); }
+    }
+
+    /* Film Grain Overlay */
+    .film-grain {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: var(--grain-opacity);
+      mix-blend-mode: var(--grain-mix);
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    .app-container {
+      position: relative;
+      z-index: 2;
+      max-width: 1580px;
+      margin: 0 auto;
+      padding: 40px 32px 120px;
+    }
+
+    /* Studio Header */
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .header-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .studio-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(0, 102, 255, 0.1);
+      border: 1px solid rgba(0, 102, 255, 0.3);
+      color: var(--brand-accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    /* Theme Switcher Toggle Button */
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: all 0.2s ease;
+    }
+    .theme-toggle-btn:hover {
+      border-color: var(--brand-primary);
+      transform: translateY(-2px);
+    }
+
+    h1 {
+      font-size: 46px;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      background: var(--header-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .header-desc {
+      font-size: 16.5px;
+      color: var(--text-muted);
+      max-width: 860px;
+      line-height: 1.6;
+      font-weight: 500;
+    }
+
+    /* =================================================== */
+    /* 🎛️ ADVANCED FONT MODING STUDIO CONTROLLER (Sticky) */
+    /* =================================================== */
+    .moding-studio-panel {
+      position: sticky;
+      top: 16px;
+      z-index: 100;
+      background: var(--panel-bg);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-radius: 24px;
+      padding: 22px 28px;
+      margin-bottom: 36px;
+      border: 1.5px solid var(--border-subtle);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 102, 255, 0.15);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .moding-row-main {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .input-wrap-primary {
+      flex: 2;
+      min-width: 320px;
+    }
+
+    .main-text-input {
+      width: 100%;
+      padding: 13px 20px;
+      background: var(--input-bg);
+      border: 1.5px solid rgba(0, 102, 255, 0.35);
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    .main-text-input:focus {
+      border-color: var(--brand-primary);
+      box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.15);
+    }
+
+    /* Korean Preset Chips */
+    .preset-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .chip {
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(0, 102, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .chip:hover, .chip.active {
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+    }
+
+    /* Moding Controls Grid */
+    .moding-controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 14px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .ctrl-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .ctrl-label {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--brand-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .ctrl-val-display {
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .ctrl-select, .ctrl-input {
+      background: var(--input-bg);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 9px 12px;
+      color: var(--text-main);
+      font-size: 13px;
+      font-weight: 600;
+      outline: none;
+      font-family: inherit;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .ctrl-select:focus, .ctrl-input:focus {
+      border-color: var(--brand-primary);
+    }
+
+    .ctrl-slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 6px;
+      background: rgba(120, 140, 180, 0.25);
+      outline: none;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .ctrl-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--brand-primary);
+      box-shadow: 0 0 10px rgba(0, 102, 255, 0.5);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .ctrl-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    /* Category Filter Bar */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .filter-tab {
+      padding: 9px 18px;
+      border-radius: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .filter-tab:hover, .filter-tab.active {
+      background: var(--brand-primary);
+      border-color: var(--brand-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 16px rgba(0, 102, 255, 0.35);
+    }
+    .filter-tab.special {
+      border-color: rgba(0, 102, 255, 0.4);
+      color: var(--brand-accent);
+    }
+
+    /* =================================================== */
+    /* 🎬 28 KINETIC TYPOGRAPHY CARDS GRID                 */
+    /* =================================================== */
+    .motion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 26px;
+      margin-bottom: 50px;
+    }
+
+    .motion-card {
+      background: var(--bg-card);
+      border-radius: 20px;
+      border: 1.5px solid var(--border-subtle);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .motion-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0, 102, 255, 0.45);
+      box-shadow: 0 16px 40px -10px rgba(0, 27, 68, 0.3), 0 0 20px rgba(0, 102, 255, 0.15);
+    }
+    .motion-card.hangul-highlight {
+      border-color: rgba(0, 102, 255, 0.35);
+      background: linear-gradient(180deg, rgba(0, 102, 255, 0.05) 0%, var(--bg-card) 40%);
+    }
+
+    .card-header {
+      padding: 14px 18px;
+      background: rgba(0, 102, 255, 0.03);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-index {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: var(--brand-accent);
+      text-transform: uppercase;
+    }
+    .card-category-tag {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(0, 102, 255, 0.08);
+      color: var(--brand-primary);
+    }
+
+    /* Motion Stage (Interactive Canvas) */
+    .motion-stage {
+      height: 230px;
+      background: var(--bg-stage);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      overflow: hidden;
+      cursor: pointer;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: background 0.3s ease;
+    }
+    .stage-hint {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--brand-accent);
+      background: var(--bg-card);
+      padding: 4px 10px;
+      border-radius: 999px;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: all 0.2s ease;
+      pointer-events: none;
+      border: 1px solid rgba(0, 102, 255, 0.3);
+    }
+    .motion-stage:hover .stage-hint {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stage-watermark {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-dim);
+      opacity: 0.4;
+      pointer-events: none;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* The Animated Text Element */
+    .animated-text-wrap {
+      text-align: center;
+      font-family: var(--user-font);
+      font-weight: var(--user-weight);
+      letter-spacing: var(--user-tracking);
+      line-height: var(--user-leading);
+      text-transform: var(--user-transform);
+      font-size: var(--user-font-size);
+      color: var(--user-color);
+      font-style: var(--user-style);
+      user-select: none;
+      max-width: 92%;
+      word-break: keep-all;
+    }
+
+    .card-body {
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+    .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text-main);
+      letter-spacing: -0.02em;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 6px;
+    }
+
+    .btn-replay {
+      flex: 1;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: rgba(0, 102, 255, 0.08);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+    .btn-replay:hover {
+      background: rgba(0, 102, 255, 0.15);
+      border-color: var(--brand-primary);
+    }
+
+    .btn-copy-jsx {
+      flex: 1.3;
+      padding: 9px 12px;
+      border-radius: 10px;
+      background: rgba(0, 102, 255, 0.15);
+      border: 1px solid rgba(0, 102, 255, 0.35);
+      color: var(--brand-accent);
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+    .btn-copy-jsx:hover {
+      background: var(--brand-primary);
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.35);
+    }
+
+    /* =================================================== */
+    /* 🛠️ REMOTION CODE GENERATOR & EXPORTER PANEL        */
+    /* =================================================== */
+    .remotion-code-panel {
+      background: var(--code-bg);
+      border-radius: 24px;
+      padding: 32px;
+      margin: 40px 0;
+      border: 1.5px solid rgba(0, 102, 255, 0.3);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      color: #F8FAFC;
+    }
+    .remotion-code-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .remotion-code-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .remotion-code-title h2 {
+      font-size: 24px;
+      font-weight: 900;
+      color: #FFFFFF;
+    }
+    .remotion-badge {
+      background: linear-gradient(135deg, #0066FF 0%, #10B981 100%);
+      color: #FFFFFF;
+      font-size: 11.5px;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+
+    .code-box-wrapper {
+      position: relative;
+      background: #020617;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 22px 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13.5px;
+      line-height: 1.65;
+      color: #38BDF8;
+      overflow-x: auto;
+    }
+    .btn-copy-code-full {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background: var(--brand-primary);
+      color: #FFFFFF;
+      border: none;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-copy-code-full:hover {
+      background: #0052CC;
+      box-shadow: 0 4px 12px rgba(0, 102, 255, 0.4);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #001B44;
+      color: #FFFFFF;
+      border: 1.5px solid var(--brand-primary);
+      padding: 13px 28px;
+      border-radius: 999px;
+      font-size: 14.5px;
+      font-weight: 800;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast-popup.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* =================================================== */
+    /* 💥 KINETIC CSS KEYFRAMES & HANGUL JASO ANIMATION   */
+    /* =================================================== */
+
+    /* 🇰🇷 1. Hangul Jaso Assembly (초성/중성/종성 자석 결합) */
+    .motion-hangul-assembly .syllable-box {
+      display: inline-block;
+      position: relative;
+      margin: 0 2px;
+    }
+    .motion-hangul-assembly .jamo-cho {
+      display: inline-block;
+      animation: animJamoCho 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+      color: var(--brand-accent);
+    }
+    .motion-hangul-assembly .jamo-jung {
+      display: inline-block;
+      animation: animJamoJung 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+      color: #38BDF8;
+    }
+    .motion-hangul-assembly .jamo-jong {
+      display: inline-block;
+      animation: animJamoJong 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+      color: var(--brand-primary);
+    }
+    .motion-hangul-assembly .char-completed {
+      display: inline-block;
+      animation: animCharMerge 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes animJamoCho {
+      0% { opacity: 0; transform: translateX(-40px) scale(0.6); }
+      40% { opacity: 1; }
+      70% { transform: translateX(0); opacity: 1; }
+      80% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @keyframes animJamoJung {
+      0% { opacity: 0; transform: translateY(-35px) scale(0.6); }
+      40% { opacity: 1; }
+      70% { transform: translateY(0); opacity: 1; }
+      80% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @keyframes animJamoJong {
+      0% { opacity: 0; transform: translateY(35px) scale(0.6); }
+      40% { opacity: 1; }
+      70% { transform: translateY(0); opacity: 1; }
+      80% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @keyframes animCharMerge {
+      0%, 65% { opacity: 0; transform: scale(0.7); }
+      80% { opacity: 1; transform: scale(1.25); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* 🇰🇷 2. Hangul Jamo Typing Synthesis (자모 타이핑 조합) */
+    .motion-hangul-typing .char {
+      display: inline-block;
+      animation: animHangulTyping 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+    }
+    @keyframes animHangulTyping {
+      0% { opacity: 0; transform: scale(0.4) translateY(-10px); }
+      50% { opacity: 0.9; transform: scale(1.2) translateY(0); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* 🇰🇷 3. Hangul Jamo Pop & Morph (자모 팝 & 재조합) */
+    .motion-hangul-morph .char {
+      display: inline-block;
+      animation: animHangulMorph 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes animHangulMorph {
+      0% { opacity: 0; transform: scale(0.2) rotate(-35deg); }
+      60% { opacity: 1; transform: scale(1.3) rotate(8deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    /* 🇰🇷 4. Calligraphy Stroke Draw (붓글씨 획 드로우) */
+    .motion-calligraphy .char {
+      display: inline-block;
+      animation: animCalligraphy 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
+      transform-origin: left top;
+    }
+    @keyframes animCalligraphy {
+      0% { opacity: 0; transform: scaleX(0.1) skewX(-20deg); filter: blur(6px); }
+      60% { opacity: 1; transform: scaleX(1.1) skewX(5deg); filter: blur(0); }
+      100% { opacity: 1; transform: scaleX(1) skewX(0deg); }
+    }
+
+    /* 5. 3D Flip */
+    .motion-3d-flip .char {
+      display: inline-block;
+      transform-origin: 50% 100%;
+      animation: anim3DFlip 0.75s cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+    }
+    @keyframes anim3DFlip {
+      0% { opacity: 0; transform: perspective(800px) rotateX(-95deg) translateY(-30px); }
+      100% { opacity: 1; transform: perspective(800px) rotateX(0deg) translateY(0); }
+    }
+
+    /* 6. Origami Fold */
+    .motion-origami-fold .char {
+      display: inline-block;
+      transform-origin: 0% 50%;
+      animation: animOrigami 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animOrigami {
+      0% { opacity: 0; transform: perspective(900px) rotateY(-90deg) scaleX(0.4); }
+      100% { opacity: 1; transform: perspective(900px) rotateY(0deg) scaleX(1); }
+    }
+
+    /* 7. Domino Tilt */
+    .motion-domino-tilt .char {
+      display: inline-block;
+      transform-origin: bottom left;
+      animation: animDomino 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes animDomino {
+      0% { opacity: 0; transform: translateY(40px) rotate(-45deg); }
+      100% { opacity: 1; transform: translateY(0) rotate(0deg); }
+    }
+
+    /* 8. Tunnel Zoom */
+    .motion-tunnel-zoom {
+      animation: animTunnel 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animTunnel {
+      0% { opacity: 0; transform: scale(4.5); filter: blur(12px); }
+      100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    /* 9. Mask Reveal Up */
+    .motion-mask-reveal {
+      overflow: hidden;
+      display: inline-block;
+    }
+    .motion-mask-reveal .inner-slide {
+      display: inline-block;
+      animation: animMaskUp 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animMaskUp {
+      0% { transform: translateY(115%); opacity: 0; }
+      100% { transform: translateY(0%); opacity: 1; }
+    }
+
+    /* 10. Mask Drop Down */
+    .motion-mask-drop {
+      overflow: hidden;
+      display: inline-block;
+    }
+    .motion-mask-drop .inner-slide {
+      display: inline-block;
+      animation: animMaskDown 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animMaskDown {
+      0% { transform: translateY(-115%); opacity: 0; }
+      100% { transform: translateY(0%); opacity: 1; }
+    }
+
+    /* 11. Split Collision */
+    .motion-split-collision .char:nth-child(even) {
+      display: inline-block;
+      animation: animSplitDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .motion-split-collision .char:nth-child(odd) {
+      display: inline-block;
+      animation: animSplitUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animSplitDown {
+      0% { opacity: 0; transform: translateY(-80px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes animSplitUp {
+      0% { opacity: 0; transform: translateY(80px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 12. Diagonal Slice */
+    .motion-diagonal-slice {
+      animation: animDiagSlice 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+    }
+    @keyframes animDiagSlice {
+      0% { opacity: 0; transform: translate(-50px, 50px) skewX(-15deg); }
+      100% { opacity: 1; transform: translate(0, 0) skewX(0deg); }
+    }
+
+    /* 13. Velocity Stretch */
+    .motion-velocity-stretch {
+      animation: animVelStretch 0.8s cubic-bezier(0.22, 1.2, 0.36, 1) both;
+    }
+    @keyframes animVelStretch {
+      0% { opacity: 0; transform: scaleX(2.4) scaleY(0.5); }
+      50% { opacity: 1; transform: scaleX(0.88) scaleY(1.15); }
+      75% { transform: scaleX(1.06) scaleY(0.95); }
+      100% { transform: scaleX(1) scaleY(1); }
+    }
+
+    /* 14. Bubble Pop */
+    .motion-bubble-pop .char {
+      display: inline-block;
+      transform-origin: center bottom;
+      animation: animBubblePop 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes animBubblePop {
+      0% { opacity: 0; transform: scale(0); }
+      70% { opacity: 1; transform: scale(1.3); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* 15. Rubber Bounce */
+    .motion-rubber-bounce .char {
+      display: inline-block;
+      transform-origin: bottom center;
+      animation: animRubber 0.85s cubic-bezier(0.28, 0.84, 0.42, 1.4) both;
+    }
+    @keyframes animRubber {
+      0% { opacity: 0; transform: translateY(-70px) scaleY(1.5); }
+      50% { opacity: 1; transform: translateY(10px) scaleY(0.8) scaleX(1.2); }
+      75% { transform: translateY(-5px) scaleY(1.08) scaleX(0.95); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    /* 16. Wave Cascade */
+    .motion-wave-cascade .char {
+      display: inline-block;
+      animation: animWaveCas 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+    }
+    @keyframes animWaveCas {
+      0% { opacity: 0; transform: translateY(50px) scale(0.6); }
+      60% { opacity: 1; transform: translateY(-12px) scale(1.12); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* 17. Impact Slam */
+    .motion-impact-slam {
+      animation: animSlam 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animSlam {
+      0% { opacity: 0; transform: scale(2.8); filter: blur(16px); }
+      70% { opacity: 1; transform: scale(0.95); filter: blur(0); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    /* 18. Weight Morph */
+    .motion-weight-morph {
+      animation: animWeightMorph 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animWeightMorph {
+      0% { opacity: 0; letter-spacing: 0.35em; transform: scale(0.8); }
+      60% { opacity: 1; transform: scale(1.08); }
+      100% { opacity: 1; letter-spacing: var(--user-tracking); transform: scale(1); }
+    }
+
+    /* 19. Magnetic Snap */
+    .motion-magnetic-snap .char {
+      display: inline-block;
+      animation: animMagnetic 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+    @keyframes animMagnetic {
+      0% { opacity: 0; transform: scale(0.3) rotate(-15deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+
+    /* 20. Stagger Drop */
+    .motion-stagger-drop .char {
+      display: inline-block;
+      animation: animStaggerDrop 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animStaggerDrop {
+      0% { opacity: 0; transform: translateY(-120px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 21. Fog Blur */
+    .motion-fog-blur {
+      animation: animFogBlur 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animFogBlur {
+      0% { opacity: 0; filter: blur(28px); transform: scale(1.25); }
+      100% { opacity: 1; filter: blur(0); transform: scale(1); }
+    }
+
+    /* 22. Spotlight Cast */
+    .motion-spotlight-cast {
+      animation: animSpotlight 0.8s ease-out both;
+    }
+    @keyframes animSpotlight {
+      0% { opacity: 0; text-shadow: 0 0 50px var(--brand-primary); }
+      50% { opacity: 0.8; text-shadow: 0 0 25px var(--brand-accent); }
+      100% { opacity: 1; text-shadow: 0 0 0 transparent; }
+    }
+
+    /* 23. Smoke Drift */
+    .motion-smoke-drift .char {
+      display: inline-block;
+      animation: animSmoke 0.9s cubic-bezier(0.25, 1, 0.5, 1) both;
+    }
+    @keyframes animSmoke {
+      0% { opacity: 0; transform: translateY(40px); filter: blur(14px); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    /* 24. Neon Ignition */
+    .motion-neon-ignition {
+      animation: animNeon 1s steps(1) both;
+    }
+    @keyframes animNeon {
+      0% { opacity: 0; text-shadow: none; }
+      10% { opacity: 0.8; text-shadow: 0 0 15px var(--brand-primary), 0 0 30px var(--brand-accent); }
+      20% { opacity: 0.1; text-shadow: none; }
+      35% { opacity: 0.95; text-shadow: 0 0 20px var(--brand-primary), 0 0 40px var(--brand-accent); }
+      45% { opacity: 0.3; text-shadow: none; }
+      60% { opacity: 1; text-shadow: 0 0 25px var(--brand-primary), 0 0 50px var(--brand-accent); }
+      80% { opacity: 0.85; }
+      100% { opacity: 1; text-shadow: 0 0 18px var(--brand-primary); }
+    }
+
+    /* 25. Glitch Shutter */
+    .motion-glitch-shutter {
+      animation: animGlitch 0.6s ease both;
+    }
+    @keyframes animGlitch {
+      0% { opacity: 0; transform: translateX(-15px); text-shadow: -6px 0 #FF0055, 6px 0 #00E5FF; }
+      20% { opacity: 1; transform: translateX(10px); text-shadow: 6px 0 #FF0055, -6px 0 #00E5FF; }
+      40% { opacity: 0.4; transform: translateX(-5px); text-shadow: -3px 0 #FF0055, 3px 0 #00E5FF; }
+      60% { opacity: 1; transform: translateX(2px); text-shadow: 2px 0 #FF0055, -2px 0 #00E5FF; }
+      80% { opacity: 0.8; transform: translateX(0); text-shadow: none; }
+      100% { opacity: 1; transform: translateX(0); text-shadow: none; }
+    }
+
+    /* 26. Matrix Assemble */
+    .motion-matrix-assemble .char {
+      display: inline-block;
+      animation: animMatrix 0.75s ease-out both;
+    }
+    @keyframes animMatrix {
+      0% { opacity: 0; transform: translateY(-50px); filter: blur(10px) hue-rotate(180deg); }
+      100% { opacity: 1; transform: translateY(0); filter: blur(0) hue-rotate(0deg); }
+    }
+
+    /* 27. Slot Machine */
+    .motion-slot-machine .slot-box {
+      display: inline-block;
+      height: 1.15em;
+      overflow: hidden;
+      vertical-align: bottom;
+    }
+    .motion-slot-machine .slot-reel {
+      display: inline-flex;
+      flex-direction: column;
+      animation: animSlotRoll 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    @keyframes animSlotRoll {
+      0% { transform: translateY(-80%); opacity: 0; filter: blur(6px); }
+      70% { opacity: 1; filter: blur(0); }
+      100% { transform: translateY(0%); opacity: 1; }
+    }
+
+    /* 28. Typewriter Keystroke */
+    .motion-typewriter .char {
+      display: inline-block;
+      animation: animTypewriter 0.05s steps(1) both;
+    }
+    @keyframes animTypewriter {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="ambient-mesh">
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <div class="ambient-orb orb-3"></div>
+  </div>
+  <div class="film-grain"></div>
+
+  <div class="app-container">
+
+    <!-- Studio Header -->
+    <header>
+      <div class="header-top-row">
+        <div class="studio-badge">🇰🇷 한글 자소 결합 특화 · 28가지 프리미엄 인 트랜지션</div>
+        <!-- ☀️ White Mode / 🌙 Dark Mode Switcher -->
+        <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()">
+          <span id="themeIcon">☀️</span> <span id="themeText">화이트 모드로 전환</span>
+        </button>
+      </div>
+      <h1>KINETIC TYPOGRAPHY STUDIO</h1>
+      <p class="header-desc">
+        한글의 초성·중성·종성 자소 조합 원리를 적용한 특화 트랜지션과 고도화된 실시간 폰트 모딩 엔진을 제공합니다.
+        다크/화이트 모드에서 자유롭게 테스트하고, 완성된 Remotion 컴포넌트 코드를 즉시 복사하세요.
+      </p>
+    </header>
+
+    <!-- =================================================== -->
+    <!-- 🎛️ ADVANCED FONT MODING STUDIO CONTROLLER (Sticky) -->
+    <!-- =================================================== -->
+    <div class="moding-studio-panel">
+      <div class="moding-row-main">
+        <div class="input-wrap-primary">
+          <input type="text" id="studioTextInput" class="main-text-input" value="크리에이티브 키네틱 모션" placeholder="원하는 한글 또는 영문 텍스트를 입력하세요" />
+        </div>
+        <button class="btn-replay" id="replayAllCardsBtn" style="padding: 13px 22px; font-size: 14.5px; border-radius: 14px;">🔄 28개 모션 전체 다시 재생</button>
+      </div>
+
+      <!-- Korean Preset Chips -->
+      <div class="preset-chips">
+        <span class="chip active" data-text="크리에이티브 키네틱 모션">크리에이티브 키네틱 모션</span>
+        <span class="chip" data-text="디자인과 테크놀로지">디자인과 테크놀로지</span>
+        <span class="chip" data-text="압도적인 몰입감">압도적인 몰입감</span>
+        <span class="chip" data-text="새로운 차원의 모션">새로운 차원의 모션</span>
+        <span class="chip" data-text="한글 타이포그래피">한글 타이포그래피</span>
+        <span class="chip" data-text="한 방에 사로잡다">한 방에 사로잡다</span>
+        <span class="chip" data-text="생동하는 아이디어">생동하는 아이디어</span>
+        <span class="chip" data-text="KINETIC TYPOGRAPHY">KINETIC TYPOGRAPHY</span>
+      </div>
+
+      <!-- Font Moding Controls Grid -->
+      <div class="moding-controls-grid">
+        <!-- 1. Font Family -->
+        <div class="ctrl-group">
+          <label class="ctrl-label">폰트 서체 (Font Family)</label>
+          <select class="ctrl-select" id="fontFamilySelect">
+            <option value="'Pretendard Variable', sans-serif" selected>Pretendard (한글 모던 고딕)</option>
+            <option value="'Black Han Sans', sans-serif">Black Han Sans (압도적 두께 한글 헤드라인)</option>
+            <option value="'Do Hyeon', sans-serif">Do Hyeon (레트로 볼드 고딕)</option>
+            <option value="'Noto Serif KR', serif">Noto Serif KR (우아하고 깊은 한글 명조)</option>
+            <option value="'Gowun Batang', serif">Gowun Batang (부드러운 한글 감성 바탕)</option>
+            <option value="'Montserrat', sans-serif">Montserrat (글로벌 기하학 산세리프)</option>
+            <option value="'Bebas Neue', sans-serif">Bebas Neue (볼드 콘덴스드 헤드라인)</option>
+            <option value="'Syne', sans-serif">Syne (아방가르드 아트 타이포)</option>
+            <option value="'Space Grotesk', sans-serif">Space Grotesk (테크노 브루탈리즘)</option>
+            <option value="'JetBrains Mono', monospace">JetBrains Mono (정교한 개발자 모노)</option>
+          </select>
+        </div>
+
+        <!-- 2. Font Weight -->
+        <div class="ctrl-group">
+          <label class="ctrl-label">두께 (Weight) <span class="ctrl-val-display" id="valWeight">900</span></label>
+          <input type="range" class="ctrl-slider" id="fontWeightSlider" min="100" max="900" step="100" value="900" />
+        </div>
+
+        <!-- 3. Tracking (Letter Spacing) -->
+        <div class="ctrl-group">
+          <label class="ctrl-label">자간 (Tracking) <span class="ctrl-val-display" id="valTracking">-0.02em</span></label>
+          <input type="range" class="ctrl-slider" id="trackingSlider" min="-10" max="40" step="2" value="-2" />
+        </div>
+
+        <!-- 4. Font Size -->
+        <div class="ctrl-group">
+          <label class="ctrl-label">크기 (Size) <span class="ctrl-val-display" id="valFontSize">44px</span></label>
+          <input type="range" class="ctrl-slider" id="fontSizeSlider" min="24" max="72" step="2" value="44" />
+        </div>
+
+        <!-- 5. Text Transform -->
+        <div class="ctrl-group">
+          <label class="ctrl-label">대소문자 (Transform)</label>
+          <select class="ctrl-select" id="textTransformSelect">
+            <option value="none" selected>원문 그대로 (None)</option>
+            <option value="uppercase">대문자 (UPPERCASE)</option>
+            <option value="lowercase">소문자 (lowercase)</option>
+            <option value="capitalize">첫 글자 대문자 (Capitalize)</option>
+          </select>
+        </div>
+
+        <!-- 6. Text Style / Color -->
+        <div class="ctrl-group">
+          <label class="ctrl-label">텍스트 컬러 & 스타일</label>
+          <select class="ctrl-select" id="colorStyleSelect">
+            <option value="#F9FAFB" id="optDynamicDefault">기본 테마 컬러 (Auto)</option>
+            <option value="#0066FF">시그니처 로열 블루 (#0066FF)</option>
+            <option value="#15B2F5">네온 시안 블루 (#15B2F5)</option>
+            <option value="#10B981">에메랄드 그린 (#10B981)</option>
+            <option value="#F43F5E">선셋 로즈 핑크 (#F43F5E)</option>
+            <option value="#7C3AED">딥 바이올렛 퍼플 (#7C3AED)</option>
+            <option value="#0F172A">딥 네이비 블랙 (#0F172A)</option>
+            <option value="linear-gradient(135deg, #0066FF 0%, #15B2F5 100%)">크롬 블루 그라데이션</option>
+            <option value="linear-gradient(135deg, #F43F5E 0%, #FB923C 100%)">선셋 파이어 그라데이션</option>
+            <option value="linear-gradient(135deg, #10B981 0%, #38BDF8 100%)">오로라 사이버 그라데이션</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="filter-bar">
+      <button class="filter-tab active" data-filter="all">전체 28개 모션</button>
+      <button class="filter-tab special" data-filter="hangul">🇰🇷 한글 자소 특화 (4)</button>
+      <button class="filter-tab" data-filter="3d">3D & PERSPECTIVE (4)</button>
+      <button class="filter-tab" data-filter="mask">MASK & SLICE (4)</button>
+      <button class="filter-tab" data-filter="bounce">BOUNCE & ELASTIC (4)</button>
+      <button class="filter-tab" data-filter="impact">IMPACT & WEIGHT (4)</button>
+      <button class="filter-tab" data-filter="cinematic">CINEMATIC (4)</button>
+      <button class="filter-tab" data-filter="tech">TECH & DIGITAL (4)</button>
+    </div>
+
+    <!-- Motion Showcase Cards Grid (28 Effects) -->
+    <div class="motion-grid" id="motionGrid">
+
+      <!-- ================= 🇰🇷 1. HANGUL JASO SPECIAL ================= -->
+      <!-- H1. Hangul Jaso Assembly -->
+      <div class="motion-card hangul-highlight" data-category="hangul" data-effect="hangul-assembly">
+        <div class="card-header">
+          <span class="card-index">🇰🇷 HANGUL 01</span>
+          <span class="card-category-tag">한글 자소 결합</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-hangul-assembly"></div>
+          <div class="stage-watermark">Jaso Magnetic Merge</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">한글 자소 자석 결합 (Jaso Magnetic Merge)</div>
+          <p class="card-desc">초성(좌), 중성(상), 종성(하)이 사방에서 날아와 한 음절의 완성 글자로 착! 결합되는 한글 고유의 조합형 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('hangul-assembly')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('hangul-assembly')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- H2. Hangul Typing Synthesis -->
+      <div class="motion-card hangul-highlight" data-category="hangul" data-effect="hangul-typing">
+        <div class="card-header">
+          <span class="card-index">🇰🇷 HANGUL 02</span>
+          <span class="card-category-tag">한글 자모 타이핑</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-hangul-typing"></div>
+          <div class="stage-watermark">Jamo Keystroke Build</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">자모 순차 조합 타이핑 (Jamo Keystroke)</div>
+          <p class="card-desc">키보드로 자음과 모음을 두드리듯 찰지게 글자가 조립되어 완성되는 생동감 있는 인터랙티브 타이핑.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('hangul-typing')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('hangul-typing')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- H3. Hangul Jamo Morph -->
+      <div class="motion-card hangul-highlight" data-category="hangul" data-effect="hangul-morph">
+        <div class="card-header">
+          <span class="card-index">🇰🇷 HANGUL 03</span>
+          <span class="card-category-tag">한글 자모 팝</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-hangul-morph"></div>
+          <div class="stage-watermark">Jamo Pop & Recombine</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">자모 팝 & 회전 재조합 (Jamo Pop & Morph)</div>
+          <p class="card-desc">자음과 모음이 퐁퐁 튀어나오며 회전하다가 순식간에 완성 음절로 스냅 합체되는 탄성 애니메이션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('hangul-morph')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('hangul-morph')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- H4. Calligraphy Stroke Draw -->
+      <div class="motion-card hangul-highlight" data-category="hangul" data-effect="calligraphy">
+        <div class="card-header">
+          <span class="card-index">🇰🇷 HANGUL 04</span>
+          <span class="card-category-tag">한글 획순 드로우</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-calligraphy"></div>
+          <div class="stage-watermark">Calligraphy Stroke</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">캘리그라피 획순 드로우 (Calligraphy Draw)</div>
+          <p class="card-desc">한글의 필순을 따라 붓글씨가 써지듯 스큐 변형과 함께 채워지는 감각적이고 한국적인 획 드로우 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('calligraphy')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('calligraphy')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 2. 3D & PERSPECTIVE ================= -->
+      <!-- 01. 3D Flip -->
+      <div class="motion-card" data-category="3d" data-effect="3d-flip">
+        <div class="card-header">
+          <span class="card-index">EFFECT 01</span>
+          <span class="card-category-tag">3D Perspective</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-3d-flip"></div>
+          <div class="stage-watermark">3D Flip</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">글자별 3D 플립 (Staggered 3D Flip)</div>
+          <p class="card-desc">각 글자가 3D 공간에서 X축으로 회전하며 시간차로 착지하는 애플 키노트 스타일의 모던 입체 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('3d-flip')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('3d-flip')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02. Origami Fold -->
+      <div class="motion-card" data-category="3d" data-effect="origami-fold">
+        <div class="card-header">
+          <span class="card-index">EFFECT 02</span>
+          <span class="card-category-tag">3D Perspective</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-origami-fold"></div>
+          <div class="stage-watermark">Origami 3D</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">오리가미 3D 언폴드 (Origami Fold)</div>
+          <p class="card-desc">종이접기가 펼쳐지듯 Y축 힌지를 축으로 글자들이 순차적으로 펼쳐지는 기하학적 3D 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('origami-fold')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('origami-fold')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03. Domino Tilt -->
+      <div class="motion-card" data-category="3d" data-effect="domino-tilt">
+        <div class="card-header">
+          <span class="card-index">EFFECT 03</span>
+          <span class="card-category-tag">3D Perspective</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-domino-tilt"></div>
+          <div class="stage-watermark">Domino Tilt</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">도미노 틸트 (Domino Staggered Tilt)</div>
+          <p class="card-desc">비스듬히 기울어진 도미노 블록들이 연쇄 반응을 일으키며 찰지게 일어서는 리드미컬 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('domino-tilt')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('domino-tilt')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04. Tunnel Zoom -->
+      <div class="motion-card" data-category="3d" data-effect="tunnel-zoom">
+        <div class="card-header">
+          <span class="card-index">EFFECT 04</span>
+          <span class="card-category-tag">3D Perspective</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-tunnel-zoom"></div>
+          <div class="stage-watermark">Tunnel Zoom</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">터널 원근 줌 (Perspective Tunnel Zoom)</div>
+          <p class="card-desc">카메라 바로 앞 거대한 원근 터널에서 광속으로 축소되어 정위치에 고정되는 공간감 임팩트.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('tunnel-zoom')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('tunnel-zoom')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 3. MASK & SLICE ================= -->
+      <!-- 05. Mask Reveal Up -->
+      <div class="motion-card" data-category="mask" data-effect="mask-reveal">
+        <div class="card-header">
+          <span class="card-index">EFFECT 05</span>
+          <span class="card-category-tag">Mask & Slice</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-mask-reveal"></div>
+          <div class="stage-watermark">Mask Cutout Up</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">마스크 슬라이드 업 (Masked Curtain Reveal)</div>
+          <p class="card-desc">가상의 칼선 슬릿 아래에서 부드러운 가속도로 솟구쳐 오르는 정갈하고 모던한 에디토리얼 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('mask-reveal')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('mask-reveal')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06. Mask Drop Down -->
+      <div class="motion-card" data-category="mask" data-effect="mask-drop">
+        <div class="card-header">
+          <span class="card-index">EFFECT 06</span>
+          <span class="card-category-tag">Mask & Slice</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-mask-drop"></div>
+          <div class="stage-watermark">Mask Drop Down</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">마스크 드롭 다운 (Top Curtain Drop)</div>
+          <p class="card-desc">상단 마스크 슬릿에서 셔터가 내려오듯 깔끔하게 낙하하여 안착하는 미니멀리즘 슬라이드.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('mask-drop')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('mask-drop')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 07. Split Collision -->
+      <div class="motion-card" data-category="mask" data-effect="split-collision">
+        <div class="card-header">
+          <span class="card-index">EFFECT 07</span>
+          <span class="card-category-tag">Mask & Slice</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-split-collision"></div>
+          <div class="stage-watermark">Split Collision</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">상하 스플릿 충돌 (Split Horizon Collision)</div>
+          <p class="card-desc">짝수 글자는 위에서, 홀수 글자는 아래에서 날아와 중앙 수평선에서 정확히 맞물려 결합.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('split-collision')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('split-collision')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 08. Diagonal Slice -->
+      <div class="motion-card" data-category="mask" data-effect="diagonal-slice">
+        <div class="card-header">
+          <span class="card-index">EFFECT 08</span>
+          <span class="card-category-tag">Mask & Slice</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-diagonal-slice"></div>
+          <div class="stage-watermark">Diagonal Slice</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">대각 슬라이스 어셈블 (Diagonal Slice Slide)</div>
+          <p class="card-desc">대각선 사선 각도로 베어 들어오듯 스큐 변형과 함께 제자리로 정렬되는 속도감 있는 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('diagonal-slice')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('diagonal-slice')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 4. BOUNCE & ELASTIC ================= -->
+      <!-- 09. Velocity Stretch -->
+      <div class="motion-card" data-category="bounce" data-effect="velocity-stretch">
+        <div class="card-header">
+          <span class="card-index">EFFECT 09</span>
+          <span class="card-category-tag">Bounce & Elastic</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-velocity-stretch"></div>
+          <div class="stage-watermark">Velocity Stretch</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">벨로시티 스트레치 (Velocity Stretch & Snap)</div>
+          <p class="card-desc">광속으로 가로로 늘어났다가 탄력 있는 고무줄처럼 제자리로 튕겨 스냅되는 스포티한 탄성 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('velocity-stretch')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('velocity-stretch')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. Bubble Pop -->
+      <div class="motion-card" data-category="bounce" data-effect="bubble-pop">
+        <div class="card-header">
+          <span class="card-index">EFFECT 10</span>
+          <span class="card-category-tag">Bounce & Elastic</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-bubble-pop"></div>
+          <div class="stage-watermark">Bubble Pop</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">리퀴드 버블 팝 (Liquid Bubble Pop)</div>
+          <p class="card-desc">탄산 기포나 물방울이 퐁퐁 터지듯 개별 글자가 통통 튀어 오르는 청량하고 경쾌한 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('bubble-pop')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('bubble-pop')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. Rubber Bounce -->
+      <div class="motion-card" data-category="bounce" data-effect="rubber-bounce">
+        <div class="card-header">
+          <span class="card-index">EFFECT 11</span>
+          <span class="card-category-tag">Bounce & Elastic</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-rubber-bounce"></div>
+          <div class="stage-watermark">Rubber Bounce</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">러버 젤리 바운스 (Rubber Tension Bounce)</div>
+          <p class="card-desc">탱글탱글한 젤리처럼 상하로 압축되었다가 튕겨 오르는 유쾌하고 생동감 넘치는 탄성 물리 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('rubber-bounce')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('rubber-bounce')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 12. Wave Cascade -->
+      <div class="motion-card" data-category="bounce" data-effect="wave-cascade">
+        <div class="card-header">
+          <span class="card-index">EFFECT 12</span>
+          <span class="card-category-tag">Bounce & Elastic</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-wave-cascade"></div>
+          <div class="stage-watermark">Wave Ripple</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">웨이브 플로팅 캐스케이드 (Wave Ripple)</div>
+          <p class="card-desc">물결 파도를 타듯 왼쪽에서 오른쪽으로 글자들이 우아하게 일렁이며 떠오르는 유체 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('wave-cascade')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('wave-cascade')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 5. IMPACT & WEIGHT ================= -->
+      <!-- 13. Impact Slam -->
+      <div class="motion-card" data-category="impact" data-effect="impact-slam">
+        <div class="card-header">
+          <span class="card-index">EFFECT 13</span>
+          <span class="card-category-tag">Impact & Weight</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-impact-slam"></div>
+          <div class="stage-watermark">Impact Slam</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">하이퍼 임팩트 슬램 (Impact Slam & Shockwave)</div>
+          <p class="card-desc">화면을 뚫을 듯 거대한 스케일에서 바닥으로 쾅 내리꽂히며 강력한 타격감을 주는 펀치 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('impact-slam')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('impact-slam')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. Weight Morph -->
+      <div class="motion-card" data-category="impact" data-effect="weight-morph">
+        <div class="card-header">
+          <span class="card-index">EFFECT 14</span>
+          <span class="card-category-tag">Impact & Weight</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-weight-morph"></div>
+          <div class="stage-watermark">Weight Morph</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">가변 웨이트 팽창 펀치 (Weight Morph Punch)</div>
+          <p class="card-desc">넓게 퍼져 있던 자간이 순식간에 수축하며 극단적인 Black 볼드로 압축되는 가변 서체 펀치 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('weight-morph')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('weight-morph')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 15. Magnetic Snap -->
+      <div class="motion-card" data-category="impact" data-effect="magnetic-snap">
+        <div class="card-header">
+          <span class="card-index">EFFECT 15</span>
+          <span class="card-category-tag">Impact & Weight</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-magnetic-snap"></div>
+          <div class="stage-watermark">Magnetic Snap</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">마그네틱 자석 스냅 (Magnetic Snap In)</div>
+          <p class="card-desc">강력한 자석에 끌어당겨지듯 사방에서 중심으로 초고속 결합하는 기계적 스냅 임팩트.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('magnetic-snap')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('magnetic-snap')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 16. Stagger Drop -->
+      <div class="motion-card" data-category="impact" data-effect="stagger-drop">
+        <div class="card-header">
+          <span class="card-index">EFFECT 16</span>
+          <span class="card-category-tag">Impact & Weight</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-stagger-drop"></div>
+          <div class="stage-watermark">Stagger Drop</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">고속 스태거 낙하 (High-Speed Stagger Drop)</div>
+          <p class="card-desc">하늘 위에서 글자가 순차적으로 직하강하여 바닥에 단단하게 내리꽂히는 중력 물리 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('stagger-drop')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('stagger-drop')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 6. CINEMATIC & ATMOSPHERE ================= -->
+      <!-- 17. Fog Blur Dispersion -->
+      <div class="motion-card" data-category="cinematic" data-effect="fog-blur">
+        <div class="card-header">
+          <span class="card-index">EFFECT 17</span>
+          <span class="card-category-tag">Cinematic Mood</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-fog-blur"></div>
+          <div class="stage-watermark">Fog Blur</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">시네마틱 포그 블러 해제 (Fog Blur Dispersion)</div>
+          <p class="card-desc">깊은 안갯속에서 초점이 선명하게 맞춰지며 웅장하게 떠오르는 영화 오프닝 타이틀 스타일.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('fog-blur')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('fog-blur')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 18. Spotlight Cast -->
+      <div class="motion-card" data-category="cinematic" data-effect="spotlight-cast">
+        <div class="card-header">
+          <span class="card-index">EFFECT 18</span>
+          <span class="card-category-tag">Cinematic Mood</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-spotlight-cast"></div>
+          <div class="stage-watermark">Spotlight Glow</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">스포트라이트 캐스트 (Spotlight Cast Glow)</div>
+          <p class="card-desc">어둠 속에서 강렬한 조명이 텍스트를 비추며 신비로운 빛 번짐과 함께 모습을 드러내는 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('spotlight-cast')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('spotlight-cast')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 19. Smoke Drift -->
+      <div class="motion-card" data-category="cinematic" data-effect="smoke-drift">
+        <div class="card-header">
+          <span class="card-index">EFFECT 19</span>
+          <span class="card-category-tag">Cinematic Mood</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-smoke-drift"></div>
+          <div class="stage-watermark">Smoke Drift</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">스모크 베이퍼 드리프트 (Smoke Vapor Drift)</div>
+          <p class="card-desc">피어오르는 연기처럼 아래에서 위로 은은하게 번지며 정교한 텍스트로 응집되는 감성 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('smoke-drift')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('smoke-drift')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 20. Neon Ignition -->
+      <div class="motion-card" data-category="cinematic" data-effect="neon-ignition">
+        <div class="card-header">
+          <span class="card-index">EFFECT 20</span>
+          <span class="card-category-tag">Cinematic Mood</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-neon-ignition"></div>
+          <div class="stage-watermark">Neon Ignition</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">네온 튜브 점등 (Neon Tube Ignition)</div>
+          <p class="card-desc">치지직- 전류 스파크와 함께 깜빡거리며 네온사인이 밝게 켜지는 사이버펑크 앰비언스 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('neon-ignition')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('neon-ignition')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= 7. TECH & DIGITAL ================= -->
+      <!-- 21. Glitch Shutter -->
+      <div class="motion-card" data-category="tech" data-effect="glitch-shutter">
+        <div class="card-header">
+          <span class="card-index">EFFECT 21</span>
+          <span class="card-category-tag">Tech & Digital</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-glitch-shutter"></div>
+          <div class="stage-watermark">Glitch Shutter</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">디지털 RGB 글리치 셔터 (RGB Split Shutter)</div>
+          <p class="card-desc">레드/시안 채널이 순간적으로 찢어지는 색수차 글리치와 고속 플래시 셔터의 사이버 엣지.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('glitch-shutter')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('glitch-shutter')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 22. Matrix Assemble -->
+      <div class="motion-card" data-category="tech" data-effect="matrix-assemble">
+        <div class="card-header">
+          <span class="card-index">EFFECT 22</span>
+          <span class="card-category-tag">Tech & Digital</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-matrix-assemble"></div>
+          <div class="stage-watermark">Matrix Assemble</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">매트릭스 디지털 어셈블 (Matrix Pixel Assemble)</div>
+          <p class="card-desc">디지털 데이터 스트림이 흩날리다 특정 프레임에서 선명한 텍스트로 압축 결집되는 테크 연출.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('matrix-assemble')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('matrix-assemble')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 23. Slot Machine Reel -->
+      <div class="motion-card" data-category="tech" data-effect="slot-machine">
+        <div class="card-header">
+          <span class="card-index">EFFECT 23</span>
+          <span class="card-category-tag">Tech & Digital</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-slot-machine"></div>
+          <div class="stage-watermark">Slot Reel</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">롤링 슬롯 휠 (Split-Flap / Slot Reel)</div>
+          <p class="card-desc">공항 전광판이나 슬롯머신 휠처럼 세로로 빠르게 회전하다가 착- 하고 맞아떨어지는 기계식 롤링.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('slot-machine')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('slot-machine')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 24. Typewriter Terminal -->
+      <div class="motion-card" data-category="tech" data-effect="typewriter">
+        <div class="card-header">
+          <span class="card-index">EFFECT 24</span>
+          <span class="card-category-tag">Tech & Digital</span>
+        </div>
+        <div class="motion-stage" title="클릭하여 다시 재생">
+          <div class="stage-hint">▶ 클릭 재생</div>
+          <div class="animated-text-wrap motion-typewriter"></div>
+          <div class="stage-watermark">Terminal Type</div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">터미널 타자기 타이핑 (Terminal Keystroke)</div>
+          <p class="card-desc">키보드를 탁탁 치듯 정교한 글자별 계단 스텝으로 나타나는 아날로그/터미널 키스트로크 모션.</p>
+          <div class="card-footer">
+            <button class="btn-replay" onclick="replayCard('typewriter')">▶ 재생</button>
+            <button class="btn-copy-jsx" onclick="copyCardRemotionCode('typewriter')">📋 Remotion JSX</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- =================================================== -->
+    <!-- 🛠️ REMOTION CODE GENERATOR & EXPORTER PANEL        -->
+    <!-- =================================================== -->
+    <div class="remotion-code-panel" id="remotionGenPanel">
+      <div class="remotion-code-header">
+        <div class="remotion-code-title">
+          <span class="remotion-badge">REMOTION READY</span>
+          <h2>🎬 Universal Remotion 컴포넌트 코드 생성기</h2>
+        </div>
+        <span style="font-size: 13.5px; color: #94A3B8; font-weight: 600;">
+          쇼케이스의 28가지 모션과 모딩된 폰트 속성이 반영된 완성형 React/Remotion 코드를 바로 복사하세요.
+        </span>
+      </div>
+
+      <div class="code-box-wrapper">
+        <button class="btn-copy-code-full" onclick="copyGeneratedRemotionCode()">📋 전체 컴포넌트 코드 복사</button>
+        <pre><code id="remotionCodeSnippet">// Remotion Code Snippet</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // ---------------------------------------------------------------------------
+    // 🇰🇷 한글 분해 알고리즘 (초성, 중성, 종성)
+    // ---------------------------------------------------------------------------
+    const CHOSUNG = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+    const JUNGSUNG = ["ㅏ","ㅐ","ㅑ","ㅒ","ㅓ","ㅔ","ㅕ","ㅖ","ㅗ","ㅘ","ㅙ","ㅚ","ㅛ","ㅜ","ㅝ","ㅞ","ㅟ","ㅠ","ㅡ","ㅢ","ㅣ"];
+    const JONGSUNG = ["", "ㄱ","ㄲ","ㄳ","ㄴ","ㄵ","ㄶ","ㄷ","ㄹ","ㄺ","ㄻ","ㄼ","ㄽ","ㄾ","ㄿ","ㅀ","ㅁ","ㅂ","ㅄ","ㅅ","ㅆ","ㅇ","ㅈ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+
+    function decomposeChar(char) {
+      const code = char.charCodeAt(0);
+      if (code >= 0xAC00 && code <= 0xD7A3) {
+        const index = code - 0xAC00;
+        const cho = CHOSUNG[Math.floor(index / 588)];
+        const jung = JUNGSUNG[Math.floor((index % 588) / 28)];
+        const jong = JONGSUNG[index % 28];
+        return { cho, jung, jong: jong || null, original: char, isHangul: true };
+      }
+      return { cho: char, jung: "", jong: null, original: char, isHangul: false };
+    }
+
+    // State management for live font moding & motion
+    const state = {
+      text: '크리에이티브 키네틱 모션',
+      fontFamily: "'Pretendard Variable', sans-serif",
+      weight: 900,
+      tracking: '-0.02em',
+      fontSize: '44px',
+      transform: 'none',
+      color: 'auto',
+      theme: 'dark',
+      activeFilter: 'all'
+    };
+
+    // ☀️/🌙 Theme Toggle
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      state.theme = next;
+
+      const icon = document.getElementById('themeIcon');
+      const text = document.getElementById('themeText');
+      if (next === 'light') {
+        icon.textContent = '🌙';
+        text.textContent = '다크 모드로 전환';
+      } else {
+        icon.textContent = '☀️';
+        text.textContent = '화이트 모드로 전환';
+      }
+
+      applyFontModing();
+      showToast(`${next === 'light' ? '화이트(라이트)' : '다크'} 모드로 전환되었습니다!`);
+    }
+
+    // Render animated inner DOM per effect
+    function renderText(text) {
+      state.text = text;
+      document.querySelectorAll('.animated-text-wrap').forEach((el) => {
+        const card = el.closest('.motion-card');
+        if (!card) return;
+        const effect = card.dataset.effect;
+
+        // 🇰🇷 1. Hangul Jaso Assembly
+        if (effect === 'hangul-assembly') {
+          el.innerHTML = text.split('').map((char, i) => {
+            if (char === ' ') return '<span style="display:inline-block; width:0.35em;">&nbsp;</span>';
+            const decomp = decomposeChar(char);
+            const delay = (i * 0.08).toFixed(3);
+            if (!decomp.isHangul) {
+              return `<span class="char" style="animation-delay: ${delay}s">${char}</span>`;
+            }
+            return `
+              <span class="syllable-box" style="animation-delay: ${delay}s">
+                <span class="jamo-cho" style="position: absolute; left: 0; animation-delay: ${delay}s">${decomp.cho}</span>
+                <span class="jamo-jung" style="position: absolute; right: 0; animation-delay: ${delay}s">${decomp.jung}</span>
+                ${decomp.jong ? `<span class="jamo-jong" style="position: absolute; bottom: -8px; left: 20%; animation-delay: ${delay}s">${decomp.jong}</span>` : ''}
+                <span class="char-completed" style="animation-delay: ${delay}s">${char}</span>
+              </span>
+            `;
+          }).join('');
+          return;
+        }
+
+        // Effects that animate per character
+        const charEffects = [
+          'hangul-typing', 'hangul-morph', 'calligraphy',
+          '3d-flip', 'origami-fold', 'domino-tilt', 'bubble-pop',
+          'rubber-bounce', 'wave-cascade', 'magnetic-snap',
+          'stagger-drop', 'smoke-drift', 'matrix-assemble',
+          'typewriter', 'split-collision'
+        ];
+
+        if (charEffects.includes(effect)) {
+          el.innerHTML = text.split('').map((char, i) => {
+            const displayChar = char === ' ' ? '&nbsp;' : char;
+            const delay = (i * 0.045).toFixed(3);
+            return `<span class="char" style="animation-delay: ${delay}s">${displayChar}</span>`;
+          }).join('');
+        } else if (effect === 'mask-reveal' || effect === 'mask-drop') {
+          el.innerHTML = `<span class="inner-slide">${text}</span>`;
+        } else if (effect === 'slot-machine') {
+          el.innerHTML = text.split('').map((char, i) => {
+            if (char === ' ') return '<span>&nbsp;</span>';
+            const randomList = ['한', '글', '모', '션', '9', char];
+            const delay = (i * 0.035).toFixed(3);
+            return `<span class="slot-box"><span class="slot-reel" style="animation-delay: ${delay}s">${randomList.map(c => `<span>${c}</span>`).join('')}</span></span>`;
+          }).join('');
+        } else {
+          el.textContent = text;
+        }
+      });
+      updateRemotionCode();
+    }
+
+    // Apply font moding CSS variables to root
+    function applyFontModing() {
+      const root = document.documentElement;
+      root.style.setProperty('--user-font', state.fontFamily);
+      root.style.setProperty('--user-weight', state.weight);
+      root.style.setProperty('--user-tracking', state.tracking);
+      root.style.setProperty('--user-font-size', state.fontSize);
+      root.style.setProperty('--user-transform', state.transform);
+
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      let resolvedColor = state.color;
+      if (state.color === 'auto') {
+        resolvedColor = isLight ? '#0F172A' : '#F9FAFB';
+      }
+
+      if (resolvedColor.startsWith('linear-gradient')) {
+        root.style.setProperty('--user-color', 'transparent');
+        document.querySelectorAll('.animated-text-wrap').forEach(el => {
+          el.style.backgroundImage = resolvedColor;
+          el.style.webkitBackgroundClip = 'text';
+          el.style.webkitTextFillColor = 'transparent';
+        });
+      } else {
+        root.style.setProperty('--user-color', resolvedColor);
+        document.querySelectorAll('.animated-text-wrap').forEach(el => {
+          el.style.backgroundImage = 'none';
+          el.style.webkitBackgroundClip = 'unset';
+          el.style.webkitTextFillColor = resolvedColor;
+        });
+      }
+
+      updateRemotionCode();
+    }
+
+    // Replay single card animation
+    function replayCard(effectName) {
+      const card = document.querySelector(`[data-effect="${effectName}"]`);
+      if (!card) return;
+      const wrap = card.querySelector('.animated-text-wrap');
+      const newWrap = wrap.cloneNode(true);
+      wrap.parentNode.replaceChild(newWrap, wrap);
+    }
+
+    // Replay all cards at once
+    function replayAllCards() {
+      renderText(state.text);
+      document.querySelectorAll('.motion-card').forEach(card => {
+        replayCard(card.dataset.effect);
+      });
+    }
+
+    // Copy single card Remotion JSX code
+    function copyCardRemotionCode(effectName) {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      const colorVal = state.color === 'auto' ? (isLight ? '#0F172A' : '#0066FF') : (state.color.startsWith('linear-gradient') ? '#0066FF' : state.color);
+      const snippet = `<KineticText\n  text="${state.text}"\n  effect="${effectName}"\n  fontFamily="${state.fontFamily.replace(/'/g, "\\'")}"\n  fontWeight={${state.weight}}\n  fontSize={${state.fontSize.replace('px', '')}}\n  color="${colorVal}"\n  letterSpacing="${state.tracking}"\n  startFrame={0}\n  staggerFrames={2}\n/>`;
+      navigator.clipboard.writeText(snippet).then(() => {
+        showToast(`Remotion JSX (${effectName}) 코드가 클립보드에 복사되었습니다!`);
+      });
+    }
+
+    // Update bottom Remotion code snippet
+    function updateRemotionCode() {
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      const colorVal = state.color === 'auto' ? (isLight ? '#0F172A' : '#0066FF') : (state.color.startsWith('linear-gradient') ? '#0066FF' : state.color);
+      const snippet = `import React from "react";
+import { KineticText } from "./components/KineticText";
+
+/**
+ * 🎬 Universal Kinetic Typography Implementation
+ * 한국어 자소 결합 및 글로벌 모션을 모든 Remotion 컴포지션에서 바로 사용 가능합니다.
+ */
+export const MyTypographyScene: React.FC = () => {
+  return (
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+      <KineticText
+        text="${state.text}"
+        effect="hangul-assembly" // 28개 모션 중 자유롭게 선택 (3d-flip, velocity-stretch 등)
+        fontFamily="${state.fontFamily.replace(/'/g, "\\'")}"
+        fontWeight={${state.weight}}
+        fontSize={${state.fontSize.replace('px', '')}}
+        letterSpacing="${state.tracking}"
+        color="${colorVal}"
+        startFrame={10}
+        staggerFrames={2}
+      />
+    </div>
+  );
+};`;
+      document.getElementById('remotionCodeSnippet').textContent = snippet;
+    }
+
+    function copyGeneratedRemotionCode() {
+      const code = document.getElementById('remotionCodeSnippet').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        showToast("전체 Remotion 컴포넌트 코드가 복사되었습니다!");
+      });
+    }
+
+    // Toast notification
+    function showToast(msg) {
+      let toast = document.getElementById('globalToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'globalToast';
+        toast.className = 'toast-popup';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = `<span>✨</span> <span>${msg}</span>`;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    // DOM Event Listeners Setup
+    document.addEventListener('DOMContentLoaded', () => {
+      const textInput = document.getElementById('studioTextInput');
+      renderText(textInput.value);
+
+      // Text Input Change
+      textInput.addEventListener('input', (e) => {
+        renderText(e.target.value);
+        replayAllCards();
+      });
+
+      // Preset Chips
+      document.querySelectorAll('.preset-chips .chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('.preset-chips .chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          textInput.value = chip.dataset.text;
+          renderText(chip.dataset.text);
+          replayAllCards();
+        });
+      });
+
+      // Font Family
+      document.getElementById('fontFamilySelect').addEventListener('change', (e) => {
+        state.fontFamily = e.target.value;
+        applyFontModing();
+      });
+
+      // Font Weight
+      const weightSlider = document.getElementById('fontWeightSlider');
+      weightSlider.addEventListener('input', (e) => {
+        state.weight = e.target.value;
+        document.getElementById('valWeight').innerText = e.target.value;
+        applyFontModing();
+      });
+
+      // Tracking (Letter Spacing)
+      const trackSlider = document.getElementById('trackingSlider');
+      trackSlider.addEventListener('input', (e) => {
+        const val = (parseFloat(e.target.value) / 100).toFixed(2);
+        state.tracking = `${val}em`;
+        document.getElementById('valTracking').innerText = `${val}em`;
+        applyFontModing();
+      });
+
+      // Font Size
+      const sizeSlider = document.getElementById('fontSizeSlider');
+      sizeSlider.addEventListener('input', (e) => {
+        state.fontSize = `${e.target.value}px`;
+        document.getElementById('valFontSize').innerText = `${e.target.value}px`;
+        applyFontModing();
+      });
+
+      // Text Transform
+      document.getElementById('textTransformSelect').addEventListener('change', (e) => {
+        state.transform = e.target.value;
+        applyFontModing();
+      });
+
+      // Color / Style
+      document.getElementById('colorStyleSelect').addEventListener('change', (e) => {
+        state.color = e.target.value;
+        applyFontModing();
+      });
+
+      // Filter Tabs
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const filter = tab.dataset.filter;
+          document.querySelectorAll('.motion-card').forEach(card => {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Replay All Button
+      document.getElementById('replayAllCardsBtn').addEventListener('click', replayAllCards);
+
+      // Card Stage Click
+      document.querySelectorAll('.motion-stage').forEach(stage => {
+        stage.addEventListener('click', () => {
+          const card = stage.closest('.motion-card');
+          replayCard(card.dataset.effect);
+        });
+      });
+
+      applyFontModing();
+    });
+  </script>
+</body>
+</html>
